@@ -432,7 +432,7 @@ Animator:
   m_GameObject: {fileID: 1028156346193888188}
   m_Enabled: 1
   m_Avatar: {fileID: 9000000, guid: 36078ab0369161e49a29d349ae3e0739, type: 3}
-  m_Controller: {fileID: 9100000, guid: 40db3173a05ae3242b1c182a09b0a183, type: 2}
+  m_Controller: {fileID: 9100000, guid: 2b6d24ee0f1eeca428e5ce296658ba39, type: 2}
   m_CullingMode: 1
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -481,23 +481,22 @@ MonoBehaviour:
   _animator: {fileID: 6048126250331849596}
   _enemyState: 0
   _attackDistance: 0.5
-  _speed: 2
   patrol:
     state: 0
     speed: 5
-    _cdTime: 0
+    cdTime: 0
   chase:
     state: 1
     speed: 8
-    _cdTime: 0
+    cdTime: 0
   search:
     state: 2
     speed: 6
-    _cdTime: 0
+    cdTime: 0
   attack:
     state: 3
     speed: 0.3
-    _cdTime: 0
+    cdTime: 0
   _sensors: []
 --- !u!1 &1101287079030970735
 GameObject:

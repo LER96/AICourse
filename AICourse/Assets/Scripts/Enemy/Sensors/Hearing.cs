@@ -5,40 +5,22 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "Hearing", menuName = "ScriptableObjects/Sensonrs/Hear")]
 public class Hearing : SensorsSO
 {
-    [Range(0, 360)]
-    [SerializeField] float viewAngle;
     [SerializeField] LayerMask _enemyLayer;
-    [SerializeField] LayerMask _obsMask;
 
     public override void ExcuteMethod()
     {
-        _targetOnSight.Clear();
         //set an array of all the object, with the specific layer, that entered the cast sphere
-        Collider[] targetsInFieldView = Physics.OverlapSphere(_sensorPoint.position, _range, _enemyLayer);
-        for (int i = 0; i < targetsInFieldView.Length; i++)
-        {
-            Transform target = targetsInFieldView[i].transform;
-            Vector3 dirToTarget = (target.position - _sensorPoint.position).normalized;
+        Collider[] targetsInHearRadar = Physics.OverlapSphere(_sensorPoint.position, _range, _enemyLayer);
 
-            //if the position is on the middle of the camera view// that means the player is looking right at it
-            if (Vector3.Angle(_sensorPoint.forward, dirToTarget) < viewAngle)
-            {
-                float distTarget = Vector3.Distance(_sensorPoint.position, target.position);
-                //cast a ray that make sure that the target is not hiding behind anything
-                if (!Physics.Raycast(_sensorPoint.position, dirToTarget, distTarget, _obsMask))
-                {
-                    _targetOnSight.Add(target);
-                }
-            }
-        }
-
-        if(_targetOnSight.Count>0)
+        if(targetsInHearRadar.Length>0)
         {
             _sensorDetection = true;
+            _target = targetsInHearRadar[0].transform;
         }
         else
         {
             _sensorDetection = false;
+            _target = null;
         }
     }
 }

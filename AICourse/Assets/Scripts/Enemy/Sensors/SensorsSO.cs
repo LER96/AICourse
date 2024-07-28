@@ -9,9 +9,9 @@ public class SensorsSO : ScriptableObject
     [SerializeField] protected float _range;
     protected bool _sensorDetection;
     protected Transform _sensorPoint;
-    protected List<Transform> _targetOnSight = new List<Transform>();
+    protected Transform _target;
 
-    public List<Transform> Targets => _targetOnSight;
+    public Transform Target => _target;
     public float Range => _range;
     public bool Detected => _sensorDetection;
 

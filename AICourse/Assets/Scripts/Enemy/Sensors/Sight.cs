@@ -1,0 +1,47 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+[CreateAssetMenu(fileName = "Sight", menuName = "ScriptableObjects/Sensonrs/Sight")]
+public class Sight : SensorsSO
+{
+    [Range(0, 360)]
+    [SerializeField] float viewAngle;
+    [SerializeField] LayerMask _enemyLayer;
+    [SerializeField] LayerMask _obsMask;
+    List<Transform> _targetOnSight = new List<Transform>();
+
+    public override void ExcuteMethod()
+    {
+        _targetOnSight.Clear();
+        //set an array of all the object, with the specific layer, that entered the cast sphere
+        Collider[] targetsInFieldView = Physics.OverlapSphere(_sensorPoint.position, _range, _enemyLayer);
+        for (int i = 0; i < targetsInFieldView.Length; i++)
+        {
+            Transform target = targetsInFieldView[i].transform;
+            Vector3 dirToTarget = (target.position - _sensorPoint.position).normalized;
+
+            //if the position is on the middle of the camera view// that means the player is looking right at it
+            if (Vector3.Angle(_sensorPoint.forward, dirToTarget) < viewAngle)
+            {
+                float distTarget = Vector3.Distance(_sensorPoint.position, target.position);
+                //cast a ray that make sure that the target is not hiding behind anything
+                if (!Physics.Raycast(_sensorPoint.position, dirToTarget, distTarget, _obsMask))
+                {
+                    _targetOnSight.Add(target);
+                }
+            }
+        }
+
+        if (_targetOnSight.Count > 0)
+        {
+            _sensorDetection = true;
+            _target = _targetOnSight[0];
+        }
+        else
+        {
+            _sensorDetection = false;
+            _target = null;
+        }
+    }
+}
