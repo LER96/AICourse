@@ -22,6 +22,10 @@ public class EnemyBehavior : MonoBehaviour
     [SerializeField] EnemyState _enemyState;
     [SerializeField] float _attackDistance;
 
+    [Header("Patrol")]
+    Transform tempPoint;
+    [SerializeField] List<Transform> _patrolPoints = new List<Transform>();
+
     [Header("State Speed")]
     [SerializeField] StateSpeed patrol;
     [SerializeField] StateSpeed chase;
@@ -34,7 +38,8 @@ public class EnemyBehavior : MonoBehaviour
     SensorsSO _currentSensor;
     Transform _target;
     Transform _lastTargetPos;
-    float _timer;
+    float _currentTimer;
+    float _copyTime;
 
     private void Start()
     {
@@ -89,7 +94,6 @@ public class EnemyBehavior : MonoBehaviour
     {
         if (_currentSensor.Target == null)
         {
-            _lastTargetPos = _target;
             _target = null;
             SetState(search);
         }
@@ -110,12 +114,14 @@ public class EnemyBehavior : MonoBehaviour
 
     void ManageBehavior()
     {
-        switch(_enemyState)
+        switch (_enemyState)
         {
             case EnemyState.Patrol:
                 _animator.SetFloat("Speed", patrol.speed);
+                Patrol();
                 break;
             case EnemyState.Chase:
+                tempPoint = null;
                 _animator.SetFloat("Speed", chase.speed);
                 if (_target != null)
                 {
@@ -123,16 +129,69 @@ public class EnemyBehavior : MonoBehaviour
                 }
                 break;
             case EnemyState.Search:
+                tempPoint = null;
                 _animator.SetFloat("Speed", search.speed);
-                if (_lastTargetPos != null)
-                {
-                    _agent.SetDestination(_lastTargetPos.position);
-                }
+                Search();
                 break;
             case EnemyState.Attack:
-
-                Debug.Log("Attack");
+                _animator.SetFloat("Speed", attack.speed);
+                Attack();
                 break;
+        }
+    }
+
+    #region Patrol
+    void Patrol()
+    {
+        if(tempPoint!=null)
+        {
+            if (Vector3.Distance(transform.position, tempPoint.position) <= .5f)
+            {
+                if (_currentTimer > 0)
+                {
+                    StateCD();
+                    _animator.SetFloat("Speed", 0);
+                }
+                else
+                    SetPartolPoint();
+            }
+        }
+        else
+        {
+            SetPartolPoint();
+        }
+    }
+
+    void SetPartolPoint()
+    {
+        int rnd= Random.Range(0, _patrolPoints.Count);
+        tempPoint= _patrolPoints[rnd];
+        _agent.SetDestination(tempPoint.position);
+    }
+    #endregion
+
+    void Search()
+    {
+        if (_currentTimer > 0)
+        {
+            Patrol();
+            StateCD();
+            _animator.SetFloat("Speed", 0);
+        }
+        else
+            SetState(patrol);
+    }
+
+    void Attack()
+    {
+        if (_currentTimer > 0)
+        {
+            StateCD();
+        }
+        else
+        {
+            Debug.Log("Attack");
+            _currentTimer = _copyTime;
         }
     }
 
@@ -140,6 +199,14 @@ public class EnemyBehavior : MonoBehaviour
     {
         _enemyState = stateVariables.state;
         _agent.speed = stateVariables.speed;
-        _timer = stateVariables.cdTime;
+        _currentTimer = stateVariables.cdTime;
+        _copyTime = _currentTimer;
+    }
+
+    void StateCD()
+    {
+        _currentTimer -= Time.deltaTime;
+        if (_currentTimer < 0 )
+            _currentTimer = 0;
     }
 }
