@@ -24,9 +24,11 @@ public class Sight : SensorsSO
             //if the position is on the middle of the camera view// that means the player is looking right at it
             if (Vector3.Angle(_sensorPoint.forward, dirToTarget) < viewAngle)
             {
-                float distTarget = Vector3.Distance(_sensorPoint.position, target.position);
+                float distTarget = Vector3.Distance(_sensorPoint.position, dirToTarget);
+
+                bool hit = Physics.Raycast(_sensorPoint.position, dirToTarget, _range, _obsMask);
                 //cast a ray that make sure that the target is not hiding behind anything
-                if (!Physics.Raycast(_sensorPoint.position, dirToTarget, distTarget, _obsMask))
+                if (hit==false)
                 {
                     _targetOnSight.Add(target);
                 }

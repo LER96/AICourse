@@ -12,6 +12,7 @@ public class SensorsSO : ScriptableObject
     protected Transform _target;
 
     public Transform Target => _target;
+    public Transform Sensor=> _sensorPoint;
     public float Range => _range;
     public bool Detected => _sensorDetection;
 

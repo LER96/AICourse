@@ -38,6 +38,7 @@ public class EnemyBehavior : MonoBehaviour
 
     private void Start()
     {
+        _enemyState = EnemyState.Patrol;
         for (int i = 0; i < _sensors.Count; i++)
         {
             _sensors[i].OnSensorStart(_sensorPoint);
@@ -78,7 +79,7 @@ public class EnemyBehavior : MonoBehaviour
                 break;
             }
         }
-        if (_currentSensor.Target == null && _currentSensor != null)
+        if (_currentSensor != null)
         {
             LostTarget();
         }
@@ -86,9 +87,12 @@ public class EnemyBehavior : MonoBehaviour
 
     void LostTarget()
     {
-        _lastTargetPos = _target;
-        _target = null;
-        SetState(search);
+        if (_currentSensor.Target == null)
+        {
+            _lastTargetPos = _target;
+            _target = null;
+            SetState(search);
+        }
     }
 
     void CheckInDistance()
@@ -120,7 +124,10 @@ public class EnemyBehavior : MonoBehaviour
                 break;
             case EnemyState.Search:
                 _animator.SetFloat("Speed", search.speed);
-                _agent.SetDestination(_lastTargetPos.position);
+                if (_lastTargetPos != null)
+                {
+                    _agent.SetDestination(_lastTargetPos.position);
+                }
                 break;
             case EnemyState.Attack:
 

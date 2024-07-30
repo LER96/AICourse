@@ -169,7 +169,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8924421354001288898}
-  m_Layer: 8
+  m_Layer: 0
   m_Name: SensorPoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -396,9 +396,9 @@ GameObject:
   - component: {fileID: 6048126250331849596}
   - component: {fileID: 5192261952370203661}
   - component: {fileID: 5792764058003137154}
-  m_Layer: 8
+  m_Layer: 0
   m_Name: Enemy
-  m_TagString: Player
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -410,7 +410,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1028156346193888188}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 1.35, y: 0, z: 4.38}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -431,11 +431,11 @@ Animator:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1028156346193888188}
   m_Enabled: 1
-  m_Avatar: {fileID: 9000000, guid: 36078ab0369161e49a29d349ae3e0739, type: 3}
+  m_Avatar: {fileID: 9000000, guid: 2fce2f7c8b9889544954621d5e2c74bf, type: 3}
   m_Controller: {fileID: 9100000, guid: 2b6d24ee0f1eeca428e5ce296658ba39, type: 2}
   m_CullingMode: 1
   m_UpdateMode: 0
-  m_ApplyRootMotion: 0
+  m_ApplyRootMotion: 1
   m_LinearVelocityBlending: 0
   m_StabilizeFeet: 0
   m_WarningMessage: 
@@ -456,7 +456,7 @@ NavMeshAgent:
   m_Acceleration: 8
   avoidancePriority: 50
   m_AngularSpeed: 120
-  m_StoppingDistance: 0
+  m_StoppingDistance: 1
   m_AutoTraverseOffMeshLink: 1
   m_AutoBraking: 1
   m_AutoRepath: 1
@@ -480,24 +480,26 @@ MonoBehaviour:
   _agent: {fileID: 5192261952370203661}
   _animator: {fileID: 6048126250331849596}
   _enemyState: 0
-  _attackDistance: 0.5
+  _attackDistance: 1
   patrol:
     state: 0
-    speed: 5
+    speed: 2
     cdTime: 0
   chase:
     state: 1
-    speed: 8
+    speed: 6
     cdTime: 0
   search:
     state: 2
-    speed: 6
+    speed: 3.5
     cdTime: 0
   attack:
     state: 3
     speed: 0.3
     cdTime: 0
-  _sensors: []
+  _sensors:
+  - {fileID: 11400000, guid: 1c81c999eb878434ba65e24cf5729806, type: 2}
+  - {fileID: 11400000, guid: 0baeebd7ab7645f4d877b90a41257d47, type: 2}
 --- !u!1 &1101287079030970735
 GameObject:
   m_ObjectHideFlags: 0
@@ -1209,7 +1211,7 @@ GameObject:
   - component: {fileID: 4661970576662248160}
   m_Layer: 0
   m_Name: PlayerCameraRoot
-  m_TagString: CinemachineTarget
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
