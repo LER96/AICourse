@@ -50,19 +50,19 @@ public class EnemyBehavior : MonoBehaviour
         }
     }
 
-    private void Update()
-    {
-        if(_sensors.Count>0)
-        {
-            UpdateSensors();
-            ManageSensors();
-            if (_target != null)
-            {
-                CheckInDistance();
-            }
-        }
-        ManageBehavior();
-    }
+    //private void Update()
+    //{
+    //    if(_sensors.Count>0)
+    //    {
+    //        UpdateSensors();
+    //        ManageSensors();
+    //        if (_target != null)
+    //        {
+    //            CheckInDistance();
+    //        }
+    //    }
+    //    ManageBehavior();
+    //}
 
     void UpdateSensors()
     {
