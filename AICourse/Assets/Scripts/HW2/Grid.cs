@@ -8,8 +8,10 @@ public class Grid : MonoBehaviour
 
     public LayerMask unWalkable;
     public Vector2 gridSize;
+    public List<Node> path = new List<Node>();
     float nodeRadius;
 
+    
     [SerializeField] List<Transform> _characters;
     Node[,] _grid;
     float _nodeDimantions;
@@ -54,23 +56,23 @@ public class Grid : MonoBehaviour
     {
         List<Node> neighbors = new List<Node>();
 
-        for (int x = -1; x < 1; x++)
+        for (int x = -1; x <= 1; x++)
         {
-            for (int y = -1; y < 1; y++)
+            for (int y = -1; y <= 1; y++)
             {
                 if (x == 0 && y == 0) continue;
 
                 int checkX = node.XPos + x;
-                int checkY = node.XPos + y;
+                int checkY = node.YPos + y;
 
-                if(checkX>=0 && checkX<= _grisdSizeX && checkX >= 0 && _grisdSizeY <= gridSize.y)
+                if(checkX>=0 && checkX< _grisdSizeX && checkY >= 0 && checkY < gridSize.y)
                 {
-                    //neighbors.Add()
+                    neighbors.Add(_grid[checkX, checkY]);
                 }
             }
         }
 
-        return null;
+        return neighbors;
     }
 
 
@@ -93,17 +95,15 @@ public class Grid : MonoBehaviour
 
         if(_grid!=null)
         {
-            Node characterNode= new Node(false, Vector3.zero,0,0);
-            for (int i = 0; i < _characters.Count; i++)
-            {
-                characterNode = GetNodeWorldPoint(_characters[i].position);
-            }
             foreach(Node node in _grid)
             {
                 Gizmos.color = (node.walkable) ? Color.white : Color.red;
-                if(characterNode==node)
+                if(path.Count>0)
                 {
-                    Gizmos.color = Color.cyan;
+                    if(path.Contains(node))
+                    {
+                        Gizmos.color = Color.cyan;
+                    }
                 }
                 Gizmos.DrawCube(node.worldPosition, Vector3.one * (_nodeDimantions - 0.1f));
             }
