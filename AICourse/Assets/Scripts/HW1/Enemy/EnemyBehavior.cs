@@ -17,7 +17,6 @@ public class EnemyBehavior : MonoBehaviour
 
     [Header("Basic Variables")]
     [SerializeField] Transform _sensorPoint;
-    [SerializeField] NavMeshAgent _agent;
     [SerializeField] Animator _animator;
     [SerializeField] EnemyState _enemyState;
     [SerializeField] float _attackDistance;
@@ -125,7 +124,7 @@ public class EnemyBehavior : MonoBehaviour
                 _animator.SetFloat("Speed", chase.speed);
                 if (_target != null)
                 {
-                    _agent.SetDestination(_target.position);
+
                 }
                 break;
             case EnemyState.Search:
@@ -166,7 +165,7 @@ public class EnemyBehavior : MonoBehaviour
     {
         int rnd= Random.Range(0, _patrolPoints.Count);
         tempPoint= _patrolPoints[rnd];
-        _agent.SetDestination(tempPoint.position);
+        //_agent.SetDestination(tempPoint.position);
     }
     #endregion
 
@@ -198,7 +197,6 @@ public class EnemyBehavior : MonoBehaviour
     void SetState(StateSpeed stateVariables)
     {
         _enemyState = stateVariables.state;
-        _agent.speed = stateVariables.speed;
         _currentTimer = stateVariables.cdTime;
         _copyTime = _currentTimer;
     }

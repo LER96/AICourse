@@ -6,10 +6,9 @@ public class Grid : MonoBehaviour
 {
     public static Grid Instance;
 
-    public bool isPath;
+    public bool displayGizmos;
     public LayerMask unWalkable;
     public Vector2 gridSize;
-    public List<Node> path = new List<Node>();
     float nodeRadius;
 
     
@@ -24,16 +23,13 @@ public class Grid : MonoBehaviour
     private void Awake()
     {
         Instance = this;
-    }
-
-    private void Start()
-    {
         nodeRadius = gridSize.x / 100;
         _nodeDimantions = nodeRadius * 2;
-        _grisdSizeX = (int) (gridSize.x / _nodeDimantions);
+        _grisdSizeX = (int)(gridSize.x / _nodeDimantions);
         _grisdSizeY = (int)(gridSize.y / _nodeDimantions);
         CreateGrid();
     }
+
 
     void CreateGrid()
     {
@@ -93,36 +89,14 @@ public class Grid : MonoBehaviour
 
     private void OnDrawGizmos()
     {
-        Gizmos.DrawCube(transform.position, new Vector3(gridSize.x, 1, gridSize.y));
-
-        if (isPath)
-        {
-            if (path.Count > 0)
-            {
-                foreach (Node node in path)
-                {
-                    Gizmos.color = Color.cyan;
-                    Gizmos.DrawCube(node.worldPosition, Vector3.one * (_nodeDimantions - 0.1f));
-                }
-            }
-        }
-        else
-        {
-            if (_grid != null)
-            {
-                foreach (Node node in _grid)
-                {
-                    Gizmos.color = (node.walkable) ? Color.white : Color.red;
-                    if (path.Count > 0)
-                    {
-                        if (path.Contains(node))
-                        {
-                            Gizmos.color = Color.cyan;
-                        }
-                    }
-                    Gizmos.DrawCube(node.worldPosition, Vector3.one * (_nodeDimantions - 0.1f));
-                }
-            }
-        }
+        Gizmos.DrawCube(transform.position, new Vector3(gridSize.x, 0.5f, gridSize.y));
+        //if (_grid != null && displayGizmos)
+        //{
+        //    foreach (Node node in _grid)
+        //    {
+        //        Gizmos.color = (node.walkable) ? Color.white : Color.red;
+        //        Gizmos.DrawCube(node.worldPosition, Vector3.one * (_nodeDimantions - 0.1f));
+        //    }
+        //}
     }
 }
