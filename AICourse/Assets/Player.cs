@@ -4,8 +4,10 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    private void Start()
+    public static Player Instance;
+
+    private void Awake()
     {
-        
+        Instance = this;
     }
 }

@@ -6,6 +6,7 @@ public class Grid : MonoBehaviour
 {
     public static Grid Instance;
 
+    public bool isPath;
     public LayerMask unWalkable;
     public Vector2 gridSize;
     public List<Node> path = new List<Node>();
@@ -18,6 +19,7 @@ public class Grid : MonoBehaviour
     int _grisdSizeX, _grisdSizeY;
 
     public List<Transform> CharactersOnGrid => _characters;
+    public int MaxSize { get {  return _grisdSizeX * _grisdSizeY; } }
 
     private void Awake()
     {
@@ -93,19 +95,33 @@ public class Grid : MonoBehaviour
     {
         Gizmos.DrawCube(transform.position, new Vector3(gridSize.x, 1, gridSize.y));
 
-        if(_grid!=null)
+        if (isPath)
         {
-            foreach(Node node in _grid)
+            if (path.Count > 0)
             {
-                Gizmos.color = (node.walkable) ? Color.white : Color.red;
-                if(path.Count>0)
+                foreach (Node node in path)
                 {
-                    if(path.Contains(node))
-                    {
-                        Gizmos.color = Color.cyan;
-                    }
+                    Gizmos.color = Color.cyan;
+                    Gizmos.DrawCube(node.worldPosition, Vector3.one * (_nodeDimantions - 0.1f));
                 }
-                Gizmos.DrawCube(node.worldPosition, Vector3.one * (_nodeDimantions - 0.1f));
+            }
+        }
+        else
+        {
+            if (_grid != null)
+            {
+                foreach (Node node in _grid)
+                {
+                    Gizmos.color = (node.walkable) ? Color.white : Color.red;
+                    if (path.Count > 0)
+                    {
+                        if (path.Contains(node))
+                        {
+                            Gizmos.color = Color.cyan;
+                        }
+                    }
+                    Gizmos.DrawCube(node.worldPosition, Vector3.one * (_nodeDimantions - 0.1f));
+                }
             }
         }
     }

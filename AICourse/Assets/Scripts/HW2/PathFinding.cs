@@ -1,25 +1,35 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using UnityEngine;
 
 public class PathFinding : MonoBehaviour
 {
-    public Transform seeker, target;
+    private Transform seeker, target;
 
-    List<Node> _openSet = new List<Node>();
+    Heap<Node> _openSet;
     HashSet<Node> _closeSet = new HashSet<Node>();
     Node _startNode;
     Node _targetNode;
+    Stopwatch sw;
 
+    private void Start()
+    {
+        seeker = this.transform;
+        target= Player.Instance.transform;
+
+    }
 
     private void Update()
     {
-        FindPath(seeker.position, target.position);
+            FindPath(seeker.position, target.position);
     }
 
     void FindPath(Vector3 startPos, Vector3 targetPos)
     {
-        _openSet.Clear();
+        sw = Stopwatch.StartNew();
+        sw.Start();
+        _openSet = new Heap<Node>(Grid.Instance.MaxSize);
         _closeSet.Clear();
 
         _startNode = Grid.Instance.GetNodeWorldPoint(startPos);
@@ -34,21 +44,12 @@ public class PathFinding : MonoBehaviour
 
     void CheckNodeCost()
     {
-        Node currentNode = _openSet[0];
-        for (int i = 0; i < _openSet.Count; i++)
-        {
-            Node node = _openSet[i];
-            if(node.FCost< currentNode.FCost || node.FCost== currentNode.FCost && node.hCost< currentNode.hCost)
-            {
-                currentNode = node;
-            }
-        }
-
-        _openSet.Remove(currentNode);
+        Node currentNode = _openSet.RemoveFirst();
         _closeSet.Add(currentNode);
 
         if (currentNode == _targetNode)
         {
+            sw.Stop();
             RetracePath(_startNode, _targetNode);
             return;
         }
