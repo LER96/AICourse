@@ -18,7 +18,8 @@ public class EnemyBehavior : MonoBehaviour
     [Header("Basic Variables")]
     [SerializeField] Transform _sensorPoint;
     [SerializeField] Animator _animator;
-    [SerializeField] EnemyState _enemyState;
+    [SerializeField] Unit _pathFindUnit;
+    [SerializeField] EnemyState _enemyStateEnum;
     [SerializeField] float _attackDistance;
 
     [Header("Patrol")]
@@ -26,6 +27,7 @@ public class EnemyBehavior : MonoBehaviour
     [SerializeField] List<Transform> _patrolPoints = new List<Transform>();
 
     [Header("State Speed")]
+    StateSpeed _currentState;
     [SerializeField] StateSpeed patrol;
     [SerializeField] StateSpeed chase;
     [SerializeField] StateSpeed search;
@@ -42,26 +44,27 @@ public class EnemyBehavior : MonoBehaviour
 
     private void Start()
     {
-        _enemyState = EnemyState.Patrol;
+        _pathFindUnit = GetComponent<Unit>();
+        SetState(patrol);
         for (int i = 0; i < _sensors.Count; i++)
         {
             _sensors[i].OnSensorStart(_sensorPoint);
         }
     }
 
-    //private void Update()
-    //{
-    //    if(_sensors.Count>0)
-    //    {
-    //        UpdateSensors();
-    //        ManageSensors();
-    //        if (_target != null)
-    //        {
-    //            CheckInDistance();
-    //        }
-    //    }
-    //    ManageBehavior();
-    //}
+    private void Update()
+    {
+        if (_sensors.Count > 0)
+        {
+            UpdateSensors();
+            ManageSensors();
+            if (_target != null)
+            {
+                CheckInDistance();
+            }
+        }
+        ManageBehavior();
+    }
 
     void UpdateSensors()
     {
@@ -113,22 +116,20 @@ public class EnemyBehavior : MonoBehaviour
 
     void ManageBehavior()
     {
-        switch (_enemyState)
+        switch (_enemyStateEnum)
         {
             case EnemyState.Patrol:
                 _animator.SetFloat("Speed", patrol.speed);
                 Patrol();
                 break;
             case EnemyState.Chase:
-                tempPoint = null;
                 _animator.SetFloat("Speed", chase.speed);
                 if (_target != null)
                 {
-
+                    _pathFindUnit.SetDestanation(Player.Instance.transform);
                 }
                 break;
             case EnemyState.Search:
-                tempPoint = null;
                 _animator.SetFloat("Speed", search.speed);
                 Search();
                 break;
@@ -144,7 +145,7 @@ public class EnemyBehavior : MonoBehaviour
     {
         if(tempPoint!=null)
         {
-            if (Vector3.Distance(transform.position, tempPoint.position) <= .5f)
+            if (Vector3.Distance(transform.position, tempPoint.position) <= 3f)
             {
                 if (_currentTimer > 0)
                 {
@@ -152,11 +153,14 @@ public class EnemyBehavior : MonoBehaviour
                     _animator.SetFloat("Speed", 0);
                 }
                 else
-                    SetPartolPoint();
+                {
+                    tempPoint = null;
+                }
             }
         }
         else
         {
+            _currentTimer = _copyTime;
             SetPartolPoint();
         }
     }
@@ -165,6 +169,7 @@ public class EnemyBehavior : MonoBehaviour
     {
         int rnd= Random.Range(0, _patrolPoints.Count);
         tempPoint= _patrolPoints[rnd];
+        _pathFindUnit.SetDestanation(tempPoint);
         //_agent.SetDestination(tempPoint.position);
     }
     #endregion
@@ -196,7 +201,9 @@ public class EnemyBehavior : MonoBehaviour
 
     void SetState(StateSpeed stateVariables)
     {
-        _enemyState = stateVariables.state;
+        _currentState = stateVariables;
+        _enemyStateEnum = stateVariables.state;
+        _pathFindUnit.speed = stateVariables.speed;
         _currentTimer = stateVariables.cdTime;
         _copyTime = _currentTimer;
     }

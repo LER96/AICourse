@@ -4,14 +4,16 @@ using UnityEngine;
 
 public class Unit : MonoBehaviour
 {
-    public float _speed;
+    public float speed;
     private Transform target;
     Vector3[] path;
     int targetIndex;
 
-    private void Start()
+    public Transform Target => target;
+
+    public void SetDestanation(Transform _target)
     {
-        target = Player.Instance.transform;
+        target = _target;
         PathManager.RequestPath(transform.position, target.position, OnPathFound);
     }
 
@@ -27,6 +29,7 @@ public class Unit : MonoBehaviour
 
     IEnumerator FollowPath()
     {
+        targetIndex = 0;
         Vector3 currentWaypoint = path[0];
         while(true)
         {
@@ -35,12 +38,13 @@ public class Unit : MonoBehaviour
                 targetIndex++;
                 if(targetIndex >= path.Length)
                 {
+                    //target = null;
                     yield break;
                 }
                 currentWaypoint = path[targetIndex];
             }
-            transform.LookAt(target);
-            transform.position = Vector3.MoveTowards(transform.position, currentWaypoint, _speed*Time.deltaTime);
+            transform.LookAt(currentWaypoint);
+            transform.position = Vector3.MoveTowards(transform.position, currentWaypoint, speed*Time.deltaTime);
             yield return null;
         }
     }
