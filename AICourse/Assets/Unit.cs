@@ -19,7 +19,7 @@ public class Unit : MonoBehaviour
 
     public void OnPathFound(Vector3[] newPath, bool pathSuccesful)
     {
-        if(pathSuccesful)
+        if(pathSuccesful && newPath.Length>0)
         {
             path = newPath;
             StopCoroutine("FollowPath");
@@ -29,14 +29,14 @@ public class Unit : MonoBehaviour
 
     IEnumerator FollowPath()
     {
-        targetIndex = 0;
+        //targetIndex = 0;
         Vector3 currentWaypoint = path[0];
-        while(true)
+        while (true)
         {
-            if(transform.position== currentWaypoint)
+            if (transform.position == currentWaypoint)
             {
                 targetIndex++;
-                if(targetIndex >= path.Length)
+                if (targetIndex >= path.Length)
                 {
                     //target = null;
                     yield break;
@@ -44,7 +44,7 @@ public class Unit : MonoBehaviour
                 currentWaypoint = path[targetIndex];
             }
             transform.LookAt(currentWaypoint);
-            transform.position = Vector3.MoveTowards(transform.position, currentWaypoint, speed*Time.deltaTime);
+            transform.position = Vector3.MoveTowards(transform.position, currentWaypoint, speed * Time.deltaTime);
             yield return null;
         }
     }

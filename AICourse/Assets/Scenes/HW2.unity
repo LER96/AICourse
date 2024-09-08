@@ -138,7 +138,7 @@ GameObject:
   - component: {fileID: 40028410}
   - component: {fileID: 40028409}
   - component: {fileID: 40028408}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: block
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -371,7 +371,7 @@ GameObject:
   - component: {fileID: 376174428}
   - component: {fileID: 376174427}
   - component: {fileID: 376174426}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: block (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1034,7 +1034,7 @@ MonoBehaviour:
   displayGizmos: 0
   unWalkable:
     serializedVersion: 2
-    m_Bits: 375
+    m_Bits: 383
   gridSize: {x: 50, y: 50}
   _characters: []
 --- !u!114 &1161757453
@@ -1383,6 +1383,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: PlayerArmature
       objectReference: {fileID: 0}
+    - target: {fileID: 4416926081852918490, guid: 64dce48905ffd9b4293e595fa6941544,
+        type: 3}
+      propertyPath: MoveSpeed
+      value: 3
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 64dce48905ffd9b4293e595fa6941544, type: 3}
 --- !u!114 &1762682259 stripped
@@ -1504,7 +1509,7 @@ GameObject:
   - component: {fileID: 1906576835}
   - component: {fileID: 1906576834}
   - component: {fileID: 1906576833}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: block (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1987,6 +1992,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Enabled
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5792764058003137154, guid: 711741c92bfeadc41808f0f4bbb2f208,
+        type: 3}
+      propertyPath: chase.speed
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 5792764058003137154, guid: 711741c92bfeadc41808f0f4bbb2f208,
+        type: 3}
+      propertyPath: search.speed
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 5792764058003137154, guid: 711741c92bfeadc41808f0f4bbb2f208,
         type: 3}

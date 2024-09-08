@@ -37,7 +37,7 @@ public class EnemyBehavior : MonoBehaviour
     [SerializeField] List<SensorsSO> _sensors = new List<SensorsSO>();
 
     SensorsSO _currentSensor;
-    Transform _target;
+    [SerializeField] Transform _target;
     Transform _lastTargetPos;
     float _currentTimer;
     float _copyTime;
@@ -88,13 +88,13 @@ public class EnemyBehavior : MonoBehaviour
         }
         if (_currentSensor != null)
         {
-            LostTarget();
+            CheckIfLostTarget();
         }
     }
 
-    void LostTarget()
+    void CheckIfLostTarget()
     {
-        if (_currentSensor.Target == null)
+        if (_currentSensor.Target == null && _target!=null)
         {
             _target = null;
             SetState(search);

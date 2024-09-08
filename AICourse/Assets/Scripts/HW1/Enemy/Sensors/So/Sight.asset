@@ -13,10 +13,10 @@ MonoBehaviour:
   m_Name: Sight
   m_EditorClassIdentifier: 
   _range: 20
-  viewAngle: 90
+  viewAngle: 60
   _enemyLayer:
     serializedVersion: 2
     m_Bits: 256
   _obsMask:
     serializedVersion: 2
-    m_Bits: 566
+    m_Bits: 574
