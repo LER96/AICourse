@@ -21,10 +21,8 @@ public class EnemyBehavior : MonoBehaviour
     [SerializeField] Unit _pathFindUnit;
     [SerializeField] EnemyState _enemyStateEnum;
     [SerializeField] float _attackDistance;
+    [SerializeField] float _chaseDistance;
 
-    [Header("Patrol")]
-    Transform tempPoint;
-    [SerializeField] List<Transform> _patrolPoints = new List<Transform>();
 
     [Header("State Speed")]
     StateSpeed _currentState;
@@ -45,7 +43,9 @@ public class EnemyBehavior : MonoBehaviour
     private void Start()
     {
         _pathFindUnit = GetComponent<Unit>();
+        SetPartolPoint();
         SetState(patrol);
+
         for (int i = 0; i < _sensors.Count; i++)
         {
             _sensors[i].OnSensorStart(_sensorPoint);
@@ -57,11 +57,6 @@ public class EnemyBehavior : MonoBehaviour
         if (_sensors.Count > 0)
         {
             UpdateSensors();
-            ManageSensors();
-            if (_target != null)
-            {
-                CheckInDistance();
-            }
         }
         ManageBehavior();
     }
@@ -71,51 +66,34 @@ public class EnemyBehavior : MonoBehaviour
         for (int i = 0; i < _sensors.Count; i++)
         {
             _sensors[i].ExcuteMethod();
-        }
-    }
-
-    void ManageSensors()
-    {
-        for (int i = 0; i < _sensors.Count; i++)
-        {
-            if(_sensors[i].Detected && _target==null)
+            if (_sensors[i].Detected)
             {
-                SetState(chase);
-                _currentSensor = _sensors[i];
                 _target = _sensors[i].Target;
+                SetState(chase);
                 break;
             }
-        }
-        if (_currentSensor != null)
-        {
-            CheckIfLostTarget();
-        }
-    }
-
-    void CheckIfLostTarget()
-    {
-        if (_currentSensor.Target == null && _target!=null)
-        {
-            _target = null;
-            SetState(search);
         }
     }
 
     void CheckInDistance()
     {
-        if(Vector3.Distance(transform.position, _target.position)<= _attackDistance)
+        float dist = Vector3.Distance(transform.position, _target.position);
+        if (dist <= _attackDistance)
         {
             SetState(attack);
         }
-        else
+        else if(dist <=_chaseDistance)
         {
             SetState(chase);
         }
     }
 
-
     void ManageBehavior()
     {
+        if (_target != null)
+        {
+            _pathFindUnit.SetDestanation(_target);
+        }
         switch (_enemyStateEnum)
         {
             case EnemyState.Patrol:
@@ -124,14 +102,7 @@ public class EnemyBehavior : MonoBehaviour
                 break;
             case EnemyState.Chase:
                 _animator.SetFloat("Speed", chase.speed);
-                if (_target != null)
-                {
-                    _pathFindUnit.SetDestanation(Player.Instance.transform);
-                }
-                break;
-            case EnemyState.Search:
-                _animator.SetFloat("Speed", search.speed);
-                Search();
+                CheckInDistance();
                 break;
             case EnemyState.Attack:
                 _animator.SetFloat("Speed", attack.speed);
@@ -143,33 +114,21 @@ public class EnemyBehavior : MonoBehaviour
     #region Patrol
     void Patrol()
     {
-        if(tempPoint!=null)
+        if (Vector3.Distance(transform.position, _target.position) <= 3f)
         {
-            if (Vector3.Distance(transform.position, tempPoint.position) <= 3f)
+            if (_currentTimer > 0)
             {
-                if (_currentTimer > 0)
-                {
-                    StateCD();
-                    _animator.SetFloat("Speed", 0);
-                }
-                else
-                {
-                    tempPoint = null;
-                }
+                StateCD();
+                //_animator.SetFloat("Speed", 0);
             }
-        }
-        else
-        {
-            _currentTimer = _copyTime;
-            SetPartolPoint();
         }
     }
 
     void SetPartolPoint()
     {
-        int rnd= Random.Range(0, _patrolPoints.Count);
-        tempPoint= _patrolPoints[rnd];
-        _pathFindUnit.SetDestanation(tempPoint);
+        int rnd= Random.Range(0, Grid.Instance.CheckPoints.Count);
+        _target= Grid.Instance.CheckPoints[rnd];
+        _pathFindUnit.SetDestanation(_target);
         //_agent.SetDestination(tempPoint.position);
     }
     #endregion
@@ -211,7 +170,10 @@ public class EnemyBehavior : MonoBehaviour
     void StateCD()
     {
         _currentTimer -= Time.deltaTime;
-        if (_currentTimer < 0 )
-            _currentTimer = 0;
+        if (_currentTimer < 0)
+        {
+            _currentTimer = _copyTime;
+            SetPartolPoint();
+        }
     }
 }

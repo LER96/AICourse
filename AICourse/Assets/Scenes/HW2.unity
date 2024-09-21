@@ -980,6 +980,18 @@ Transform:
   m_Father: {fileID: 2114283753834967213}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1050937223 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2098460508, guid: 711741c92bfeadc41808f0f4bbb2f208,
+    type: 3}
+  m_PrefabInstance: {fileID: 7326521518051698377}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5bd2593e1d2060a42ac9a7fedfbc74af, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1161757450
 GameObject:
   m_ObjectHideFlags: 0
@@ -1036,7 +1048,11 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 383
   gridSize: {x: 50, y: 50}
-  _characters: []
+  _patrolPoints:
+  - {fileID: 185394715}
+  - {fileID: 366371758}
+  - {fileID: 2082020466}
+  - {fileID: 991409246}
 --- !u!114 &1161757453
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2003,6 +2019,11 @@ PrefabInstance:
       propertyPath: search.speed
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 5792764058003137154, guid: 711741c92bfeadc41808f0f4bbb2f208,
+        type: 3}
+      propertyPath: _pathFindUnit
+      value: 
+      objectReference: {fileID: 1050937223}
     - target: {fileID: 5792764058003137154, guid: 711741c92bfeadc41808f0f4bbb2f208,
         type: 3}
       propertyPath: _patrolPoints.Array.data[0]

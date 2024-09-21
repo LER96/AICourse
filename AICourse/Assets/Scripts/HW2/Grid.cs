@@ -11,13 +11,15 @@ public class Grid : MonoBehaviour
     public Vector2 gridSize;
     float nodeRadius;
 
-    
-    [SerializeField] List<Transform> _characters;
+    [Header("Patrol")]
+    Transform tempPoint;
+    [SerializeField] List<Transform> _patrolPoints = new List<Transform>();
+
     Node[,] _grid;
     float _nodeDimantions;
     int _grisdSizeX, _grisdSizeY;
 
-    public List<Transform> CharactersOnGrid => _characters;
+    public List<Transform> CheckPoints => _patrolPoints;
     public int MaxSize { get {  return _grisdSizeX * _grisdSizeY; } }
 
     private void Awake()
@@ -73,7 +75,6 @@ public class Grid : MonoBehaviour
         return neighbors;
     }
 
-
     public Node GetNodeWorldPoint(Vector3 worldPos)
     {
         float precentX = (worldPos.x + gridSize.x / 2) / gridSize.x;
@@ -90,13 +91,13 @@ public class Grid : MonoBehaviour
     private void OnDrawGizmos()
     {
         Gizmos.DrawCube(transform.position, new Vector3(gridSize.x, 0.5f, gridSize.y));
-        //if (_grid != null && displayGizmos)
-        //{
-        //    foreach (Node node in _grid)
-        //    {
-        //        Gizmos.color = (node.walkable) ? Color.white : Color.red;
-        //        Gizmos.DrawCube(node.worldPosition, Vector3.one * (_nodeDimantions - 0.1f));
-        //    }
-        //}
+        if (_grid != null && displayGizmos)
+        {
+            foreach (Node node in _grid)
+            {
+                Gizmos.color = (node.walkable) ? Color.white : Color.red;
+                Gizmos.DrawCube(node.worldPosition, Vector3.one * (_nodeDimantions - 0.1f));
+            }
+        }
     }
 }
