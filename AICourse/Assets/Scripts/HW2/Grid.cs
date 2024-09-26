@@ -13,13 +13,13 @@ public class Grid : MonoBehaviour
 
     [Header("Patrol")]
     Transform tempPoint;
-    [SerializeField] List<Transform> _patrolPoints = new List<Transform>();
+    List<Vector3> _patrolPoints = new List<Vector3>();
 
     Node[,] _grid;
     float _nodeDimantions;
     int _grisdSizeX, _grisdSizeY;
 
-    public List<Transform> CheckPoints => _patrolPoints;
+    public List<Vector3> CheckPoints => _patrolPoints;
     public int MaxSize { get {  return _grisdSizeX * _grisdSizeY; } }
 
     private void Awake()
@@ -47,6 +47,7 @@ public class Grid : MonoBehaviour
                     Vector3.forward * (y * _nodeDimantions + nodeRadius);
 
                 bool walkable = !(Physics.CheckSphere(worldPoint, nodeRadius, unWalkable));
+                _patrolPoints.Add(worldPoint);
                 _grid[x, y] = new Node(walkable, worldPoint,x,y);
             }
         }
@@ -91,13 +92,5 @@ public class Grid : MonoBehaviour
     private void OnDrawGizmos()
     {
         Gizmos.DrawCube(transform.position, new Vector3(gridSize.x, 0.5f, gridSize.y));
-        if (_grid != null && displayGizmos)
-        {
-            foreach (Node node in _grid)
-            {
-                Gizmos.color = (node.walkable) ? Color.white : Color.red;
-                Gizmos.DrawCube(node.worldPosition, Vector3.one * (_nodeDimantions - 0.1f));
-            }
-        }
     }
 }

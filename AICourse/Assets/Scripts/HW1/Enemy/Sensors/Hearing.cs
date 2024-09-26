@@ -5,22 +5,30 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "Hearing", menuName = "ScriptableObjects/Sensonrs/Hear")]
 public class Hearing : SensorsSO
 {
-    [SerializeField] LayerMask _enemyLayer;
 
     public override void ExcuteMethod()
     {
-        //set an array of all the object, with the specific layer, that entered the cast sphere
-        Collider[] targetsInHearRadar = Physics.OverlapSphere(_sensorPoint.position, _range, _enemyLayer);
-
-        if(targetsInHearRadar.Length>0)
+        Collider[] targetsInFieldView = Physics.OverlapSphere(_sensorPoint.position, _range, _enemyLayer);
+        if (targetsInFieldView.Length > 0)
         {
-            _sensorDetection = true;
-            _target = targetsInHearRadar[0].transform;
+            if (targetsInFieldView[0].CompareTag("Player"))
+            {
+                player = targetsInFieldView[0].GetComponent<GeneticAgent>();
+                if (player != null)
+                {
+                    _sensorDetection = true;
+                    player.detected = true;
+                    _target = targetsInFieldView[0].transform;
+                }
+            }
         }
         else
         {
             _sensorDetection = false;
             _target = null;
+            player = null;
         }
     }
+
+
 }

@@ -12,11 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6dce01692bd52f74996b9a0ada89d880, type: 3}
   m_Name: Sight
   m_EditorClassIdentifier: 
-  _range: 20
-  viewAngle: 60
+  _range: 5
   _enemyLayer:
     serializedVersion: 2
     m_Bits: 256
+  viewAngle: 180
   _obsMask:
     serializedVersion: 2
     m_Bits: 574

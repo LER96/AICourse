@@ -7,13 +7,13 @@ public class Sight : SensorsSO
 {
     [Range(0, 360)]
     [SerializeField] float viewAngle;
-    [SerializeField] LayerMask _enemyLayer;
     [SerializeField] LayerMask _obsMask;
     List<Transform> _targetOnSight = new List<Transform>();
 
     public override void ExcuteMethod()
     {
         _targetOnSight.Clear();
+        base.ExcuteMethod();
         //set an array of all the object, with the specific layer, that entered the cast sphere
         Collider[] targetsInFieldView = Physics.OverlapSphere(_sensorPoint.position, _range, _enemyLayer);
         for (int i = 0; i < targetsInFieldView.Length; i++)
@@ -37,13 +37,25 @@ public class Sight : SensorsSO
 
         if (_targetOnSight.Count > 0)
         {
-            _sensorDetection = true;
-            _target = _targetOnSight[0];
+            if (targetsInFieldView[0].CompareTag("Player"))
+            {
+                player = targetsInFieldView[0].GetComponent<GeneticAgent>();
+                if (player != null)
+                {
+                    _sensorDetection = true;
+                    _target = targetsInFieldView[0].transform;
+                }
+            }
         }
         else
         {
             _sensorDetection = false;
             _target = null;
+        }
+
+        if(player!=null)
+        {
+            player.detected = _sensorDetection;
         }
     }
 }

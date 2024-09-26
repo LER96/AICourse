@@ -7,9 +7,12 @@ public class SensorsSO : ScriptableObject
 {
 
     [SerializeField] protected float _range;
+    [SerializeField] protected LayerMask _enemyLayer;
     protected bool _sensorDetection;
     protected Transform _sensorPoint;
     protected Transform _target;
+    protected GeneticAgent player;
+    protected Collider[] targetsInFieldView;
 
     public Transform Target => _target;
     public Transform Sensor=> _sensorPoint;
@@ -23,8 +26,11 @@ public class SensorsSO : ScriptableObject
 
     public virtual void ExcuteMethod()
     {
-
+        //set an array of all the object, with the specific layer, that entered the cast sphere
+        Collider[] targetsInFieldView = Physics.OverlapSphere(_sensorPoint.position, _range, _enemyLayer);
     }
+
+
 
 
 }

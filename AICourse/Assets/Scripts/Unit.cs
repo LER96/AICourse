@@ -6,6 +6,7 @@ public class Unit : MonoBehaviour
 {
     public float speed;
     private Transform target;
+    Vector3 targetLocation;
     Vector3[] path;
     int targetIndex;
 
@@ -14,7 +15,19 @@ public class Unit : MonoBehaviour
     public void SetDestanation(Transform _target)
     {
         target = _target;
-        PathManager.RequestPath(transform.position, target.position, OnPathFound);
+        targetLocation = target.position;
+        SetPath();
+    }
+
+    public void SetDestanation(Vector3 location)
+    {
+        targetLocation = location;
+        SetPath();
+    }
+
+    void SetPath()
+    {
+        PathManager.RequestPath(transform.position, targetLocation, OnPathFound);
     }
 
     public void OnPathFound(Vector3[] newPath, bool pathSuccesful)
@@ -25,11 +38,15 @@ public class Unit : MonoBehaviour
             StopCoroutine("FollowPath");
             StartCoroutine("FollowPath");
         }
+        else
+        {
+            SetPath();
+        }
     }
 
     IEnumerator FollowPath()
     {
-        //targetIndex = 0;
+        targetIndex = 0;
         Vector3 currentWaypoint = path[0];
         while (true)
         {
