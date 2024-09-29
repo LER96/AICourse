@@ -5,6 +5,7 @@ using UnityEngine;
 public class Unit : MonoBehaviour
 {
     public float speed;
+    public bool reachedTarget;
     private Transform target;
     Vector3 targetLocation;
     Vector3[] path;
@@ -47,6 +48,7 @@ public class Unit : MonoBehaviour
     IEnumerator FollowPath()
     {
         targetIndex = 0;
+        reachedTarget = false;
         Vector3 currentWaypoint = path[0];
         while (true)
         {
@@ -56,6 +58,7 @@ public class Unit : MonoBehaviour
                 if (targetIndex >= path.Length)
                 {
                     //target = null;
+                    reachedTarget = true;
                     yield break;
                 }
                 currentWaypoint = path[targetIndex];

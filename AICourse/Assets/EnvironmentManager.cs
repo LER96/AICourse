@@ -11,4 +11,9 @@ public class EnvironmentManager : MonoBehaviour
     public List<Transform> HealthPacks => healthPacks;
     public List<EnemyBehavior> Enemies => enemies;
 
+    private void Awake()
+    {
+        Instance = this;
+    }
+
 }

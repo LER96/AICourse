@@ -435,6 +435,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 0
+  reachedTarget: 0
 --- !u!95 &3513920229631213922
 Animator:
   serializedVersion: 5
@@ -1318,8 +1319,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4881609498545090592}
-  - component: {fileID: 9027768053766455936}
   - component: {fileID: 5841951677671548466}
+  - component: {fileID: 8615762052120361447}
   m_Layer: 8
   m_Name: PlayerCameraRoot
   m_TagString: Player
@@ -1342,29 +1343,6 @@ Transform:
   m_Father: {fileID: 433258574776783814}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &9027768053766455936
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4881609498545090599}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 28de16291c97bdb40a3671c1bbd6037d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _characterStateEnum: 0
-  _pathFindUnit: {fileID: 1918015786603593473}
-  patrol:
-    state: 0
-    speed: 0
-    cdTime: 0
-  escape:
-    state: 0
-    speed: 0
-    cdTime: 0
-  detected: 0
 --- !u!65 &5841951677671548466
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1378,6 +1356,22 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.2, y: 0.2, z: 0.2}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!54 &8615762052120361447
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4881609498545090599}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 0
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!1 &4888017519538892763
 GameObject:
   m_ObjectHideFlags: 0

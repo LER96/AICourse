@@ -13,7 +13,6 @@ public class Sight : SensorsSO
     public override void ExcuteMethod()
     {
         _targetOnSight.Clear();
-        base.ExcuteMethod();
         //set an array of all the object, with the specific layer, that entered the cast sphere
         Collider[] targetsInFieldView = Physics.OverlapSphere(_sensorPoint.position, _range, _enemyLayer);
         for (int i = 0; i < targetsInFieldView.Length; i++)

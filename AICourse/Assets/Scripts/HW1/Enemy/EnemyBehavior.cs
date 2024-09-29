@@ -20,9 +20,10 @@ public class EnemyBehavior : Character
     [Header("Sensors")]
     [SerializeField] List<SensorsSO> _sensors = new List<SensorsSO>();
 
-    SensorsSO _currentSensor;
+    [SerializeField] SensorsSO _currentSensor;
     float _currentTimer;
     float _copyTime;
+    Vector3 newTarget;
 
     public float Damage => damage;
 
@@ -57,7 +58,8 @@ public class EnemyBehavior : Character
             {
                 _currentSensor = _sensors[i];
                 _target = _sensors[i].Target.position;
-                _pathFindUnit.SetDestanation(_target);
+                newTarget = new Vector3(_target.x, 0, _target.z);
+                _pathFindUnit.SetDestanation(newTarget);
                 SetState(chase);
                 break;
             }
@@ -89,8 +91,7 @@ public class EnemyBehavior : Character
 
     public override void Patrol()
     {
-        float dist = Vector3.Distance(transform.position, _target);
-        if (dist <= 3f)
+        if (_pathFindUnit.reachedTarget)
         {
             if (_currentTimer > 0)
             {
@@ -98,6 +99,7 @@ public class EnemyBehavior : Character
                 _animator.SetFloat("Speed", 0);
             }
         }
+        
     }
 
 
@@ -122,10 +124,10 @@ public class EnemyBehavior : Character
 
     private void OnDrawGizmos()
     {
-        if (_currentSensor != null)
+        foreach (SensorsSO sensor in _sensors)
         {
-            Gizmos.DrawLine(_currentSensor.Sensor.position, _target);
-            Gizmos.DrawWireSphere(transform.position, _currentSensor.Range);
+            Gizmos.DrawLine(sensor.Sensor.position, newTarget);
+            Gizmos.DrawWireSphere(transform.position, sensor.Range);
         }
     }
 }
