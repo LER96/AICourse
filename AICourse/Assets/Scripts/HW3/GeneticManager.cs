@@ -4,8 +4,7 @@ using UnityEngine;
 
 public class GeneticManager : MonoBehaviour
 {
-    public int pupolationCount;
-    public GeneticAgent agent;
+    public List<GeneticAgent>  agents= new List<GeneticAgent>();
     public int numberOfGenerations = 10;
     [SerializeField] int currentGeneration;
 
@@ -29,15 +28,18 @@ public class GeneticManager : MonoBehaviour
 
     void EvaluteFitness()
     {
-        agent.EvaluateFitness();
+        //agents.EvaluateFitness();
     }
 
     bool ShouldEvolve()
     {
-        if (agent.health > 0 && agent.gameObject.activeInHierarchy)
+        foreach (var agent in agents)
         {
-            return true;
+            if (agent.health > 0 && agent.gameObject.activeInHierarchy)
+            {
+                return false;
+            }
         }
-        return false;
+        return true;
     }
 }

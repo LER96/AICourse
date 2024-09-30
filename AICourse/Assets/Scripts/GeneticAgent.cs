@@ -4,11 +4,12 @@ using UnityEngine;
 
 public class GeneticAgent : Character
 {
-    public float fitness;
+    public float totalFitness;
     public bool detected;
     public GameObject parent;
 
     [SerializeField] float[] weights = new float[3];
+    float fitness;
     [Range(0,1)]
     [SerializeField] float decisionValue;
     float decision;
@@ -32,6 +33,8 @@ public class GeneticAgent : Character
     float _maxHp;
     Transform nearbyPack;
     FuzzyLocig fuzzyLocig;
+
+    public float[] Weights { get => weights; set=> weights = value; }
 
     public override void Start()
     {
@@ -63,10 +66,11 @@ public class GeneticAgent : Character
 
     public void EvaluateFitness()
     {
-        fitness = 0;
+        totalFitness = 0;
 
         float survivalTime = Time.timeSinceLevelLoad;
-        fitness += survivalTime;
+        totalFitness += survivalTime;
+        totalFitness += fitness;
 
         //fitness+=
     }
@@ -79,7 +83,7 @@ public class GeneticAgent : Character
         float distEnemyRatio= fuzzyLocig.CalculateNearEnemyDistRatio(minEnemyDistance, maxEnemyDistance, _currentNearEnemyDistance);
         float distPackRatio = fuzzyLocig.CalculateNearPackDistRatio(minPackDistance, maxPackDistance, _currentNearPackDistance);
 
-        decision = fuzzyLocig.EvaluatePriotriy(distEnemyRatio, hpRatio, distPackRatio);
+        decision = fuzzyLocig.EvaluatePriotriy(distEnemyRatio, hpRatio, distPackRatio, weights);
         if(decision>decisionValue)
         {
             SetState(escape);
@@ -131,11 +135,16 @@ public class GeneticAgent : Character
         float nearbyEnemyDist = 6000;
         foreach (Transform pack in EnvironmentManager.Instance.HealthPacks)
         {
-            float dist = Vector3.Distance(transform.position, pack.transform.position);
-            if (dist < nearbyEnemyDist)
+            if (pack.gameObject.activeInHierarchy)
             {
-                nearbyEnemyDist = dist;
+                float dist = Vector3.Distance(transform.position, pack.transform.position);
+                if (dist < nearbyEnemyDist)
+                {
+                    nearbyEnemyDist = dist;
+                }
             }
+            else
+                continue;
         }
         _currentNearEnemyDistance = nearbyEnemyDist;
 
@@ -163,10 +172,12 @@ public class GeneticAgent : Character
             if (pack != null)
             {
                 health += pack.hp;
+                fitness += 30;
                 if (health >= _maxHp)
                 {
                     health=_maxHp;
                 }
+                other.gameObject.SetActive(false);
             }
         }
     }
@@ -189,9 +200,12 @@ public class FuzzyLocig
 
     }
 
-    public float EvaluatePriotriy(float enemyDistRatio, float agentHpRatio, float packDistRatio)
+    public float EvaluatePriotriy(float enemyDistRatio, float agentHpRatio, float packDistRatio, float[]wights)
     {
-        return (enemyDistRatio + agentHpRatio + packDistRatio) / 3;
+        float helathWeight= wights[0];
+        float enemyWeight= wights[1];
+        float packWeight= wights[2];
+        return (helathWeight*agentHpRatio)+(enemyWeight*enemyDistRatio)+(packWeight*packDistRatio);
     }
 
     public float CalculateHp(float hp, float max)
