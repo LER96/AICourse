@@ -67,7 +67,7 @@ public class GeneticAgent : Character
 
     void SurvivalTime()
     {
-        survivalTime = Time.timeSinceLevelLoad;
+        survivalTime += Time.deltaTime;
     }
 
     public void EvaluateFitness()
@@ -81,7 +81,9 @@ public class GeneticAgent : Character
 
     public override void Respawn()
     {
+        parent.SetActive(true);
         parent.transform.position = _startPoint;
+        survivalTime = 0f;
         SetPartolPoint();
     }
 
@@ -173,7 +175,7 @@ public class GeneticAgent : Character
             EnemyBehavior enemy = other.GetComponent<EnemyBehavior>();
             if(enemy!=null)
             {
-                TakeDamage(25);
+                TakeDamage(100);
             }
         }
         else if(other.CompareTag("Health"))
