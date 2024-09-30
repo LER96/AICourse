@@ -16,7 +16,8 @@ MonoBehaviour:
   _enemyLayer:
     serializedVersion: 2
     m_Bits: 320
-  viewAngle: 180
+  targetsInFieldView: []
+  viewAngle: 360
   _obsMask:
     serializedVersion: 2
-    m_Bits: 575
+    m_Bits: 0

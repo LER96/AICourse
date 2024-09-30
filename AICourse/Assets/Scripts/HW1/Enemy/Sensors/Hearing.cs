@@ -13,13 +13,8 @@ public class Hearing : SensorsSO
         {
             if (targetsInFieldView[0].CompareTag("Player"))
             {
-                player = targetsInFieldView[0].GetComponent<GeneticAgent>();
-                if (player != null)
-                {
-                    _sensorDetection = true;
-                    player.detected = true;
-                    _target = targetsInFieldView[0].transform;
-                }
+                _sensorDetection = true;
+                _target = targetsInFieldView[0].transform;
             }
         }
         else

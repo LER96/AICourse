@@ -58,8 +58,8 @@ public class EnemyBehavior : Character
             {
                 _currentSensor = _sensors[i];
                 _target = _sensors[i].Target.position;
-                newTarget = new Vector3(_target.x, 0, _target.z);
-                _pathFindUnit.SetDestanation(newTarget);
+                //newTarget = new Vector3(_target.x, 0, _target.z);
+                _pathFindUnit.SetDestanation(_target);
                 SetState(chase);
                 break;
             }
@@ -71,6 +71,7 @@ public class EnemyBehavior : Character
         if(_currentSensor.Detected==false)
         {
             SetState(patrol);
+            SetPartolPoint();
         }
     }
 
@@ -126,7 +127,6 @@ public class EnemyBehavior : Character
     {
         foreach (SensorsSO sensor in _sensors)
         {
-            Gizmos.DrawLine(sensor.Sensor.position, newTarget);
             Gizmos.DrawWireSphere(transform.position, sensor.Range);
         }
     }

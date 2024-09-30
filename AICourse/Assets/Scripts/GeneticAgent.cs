@@ -68,7 +68,7 @@ public class GeneticAgent : Character
         float survivalTime = Time.timeSinceLevelLoad;
         fitness += survivalTime;
 
-
+        //fitness+=
     }
 
     public void EvaluateFozzy()
@@ -108,7 +108,6 @@ public class GeneticAgent : Character
         float nearbyPackDist = 6000;
         foreach (Transform pack in EnvironmentManager.Instance.HealthPacks)
         {
-            nearbyPack = pack;
             float dist = Vector3.Distance(transform.position, pack.transform.position);
             if (dist < nearbyPackDist)
             {
@@ -121,7 +120,10 @@ public class GeneticAgent : Character
 
     void GoToNearPack()
     {
-        _pathFindUnit.SetDestanation(nearbyPack.position);
+        if (_pathFindUnit.reachedTarget)
+        {
+            _pathFindUnit.SetDestanation(nearbyPack.position);
+        }
     }
 
     void CheckCloseEnemy()
@@ -161,7 +163,10 @@ public class GeneticAgent : Character
             if (pack != null)
             {
                 health += pack.hp;
-                fitness += 30;
+                if (health >= _maxHp)
+                {
+                    health=_maxHp;
+                }
             }
         }
     }
@@ -191,7 +196,7 @@ public class FuzzyLocig
 
     public float CalculateHp(float hp, float max)
     {
-        return hp / max;
+        return 1-(hp / max);
     }
 
     public float CalculateNearEnemyDistRatio(float min, float max, float current)
@@ -206,7 +211,7 @@ public class FuzzyLocig
         }
         else
         {
-            return 1 - (min / current);
+            return min / current;
         }
     }
 
@@ -222,7 +227,7 @@ public class FuzzyLocig
         }
         else
         {
-            return 1 - (min / current);
+            return min / current;
         }
     }
 

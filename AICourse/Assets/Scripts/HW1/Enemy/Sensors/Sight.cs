@@ -15,21 +15,24 @@ public class Sight : SensorsSO
         _targetOnSight.Clear();
         //set an array of all the object, with the specific layer, that entered the cast sphere
         Collider[] targetsInFieldView = Physics.OverlapSphere(_sensorPoint.position, _range, _enemyLayer);
-        for (int i = 0; i < targetsInFieldView.Length; i++)
+        if (targetsInFieldView.Length > 0)
         {
-            Transform target = targetsInFieldView[i].transform;
-            Vector3 dirToTarget = (target.position - _sensorPoint.position).normalized;
-
-            //if the position is on the middle of the camera view// that means the player is looking right at it
-            if (Vector3.Angle(_sensorPoint.forward, dirToTarget) < viewAngle)
+            for (int i = 0; i < targetsInFieldView.Length; i++)
             {
-                float distTarget = Vector3.Distance(_sensorPoint.position, dirToTarget);
+                Transform target = targetsInFieldView[i].transform;
+                Vector3 dirToTarget = (target.position - _sensorPoint.position).normalized;
 
-                bool hit = Physics.Raycast(_sensorPoint.position, dirToTarget, _range, _obsMask);
-                //cast a ray that make sure that the target is not hiding behind anything
-                if (hit==false)
+                //if the position is on the middle of the camera view// that means the player is looking right at it
+                if (Vector3.Angle(_sensorPoint.forward, dirToTarget) < viewAngle)
                 {
-                    _targetOnSight.Add(target);
+                    float distTarget = Vector3.Distance(_sensorPoint.position, dirToTarget);
+
+                    bool hit = Physics.Raycast(_sensorPoint.position, dirToTarget, _range, _obsMask);
+                    //cast a ray that make sure that the target is not hiding behind anything
+                    if (hit == false)
+                    {
+                        _targetOnSight.Add(target);
+                    }
                 }
             }
         }
@@ -38,12 +41,8 @@ public class Sight : SensorsSO
         {
             if (targetsInFieldView[0].CompareTag("Player"))
             {
-                player = targetsInFieldView[0].GetComponent<GeneticAgent>();
-                if (player != null)
-                {
-                    _sensorDetection = true;
-                    _target = targetsInFieldView[0].transform;
-                }
+                _sensorDetection = true;
+                _target = targetsInFieldView[0].transform;
             }
         }
         else

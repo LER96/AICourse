@@ -12,7 +12,7 @@ public class SensorsSO : ScriptableObject
     protected Transform _sensorPoint;
     protected Transform _target;
     protected GeneticAgent player;
-    protected Collider[] targetsInFieldView;
+    [SerializeField] protected Collider[] targetsInFieldView;
 
     public Transform Target => _target;
     public Transform Sensor=> _sensorPoint;

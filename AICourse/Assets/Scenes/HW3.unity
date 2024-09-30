@@ -168,7 +168,7 @@ BoxCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 40028406}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
@@ -426,6 +426,23 @@ PrefabInstance:
       propertyPath: _chaseDistance
       value: 5
       objectReference: {fileID: 0}
+    - target: {fileID: 5792764058003137154, guid: 711741c92bfeadc41808f0f4bbb2f208,
+        type: 3}
+      propertyPath: _sensors.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5792764058003137154, guid: 711741c92bfeadc41808f0f4bbb2f208,
+        type: 3}
+      propertyPath: _sensors.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 1c81c999eb878434ba65e24cf5729806,
+        type: 2}
+    - target: {fileID: 5792764058003137154, guid: 711741c92bfeadc41808f0f4bbb2f208,
+        type: 3}
+      propertyPath: _sensors.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: 1c81c999eb878434ba65e24cf5729806,
+        type: 2}
     - target: {fileID: 7074959704963842688, guid: 711741c92bfeadc41808f0f4bbb2f208,
         type: 3}
       propertyPath: m_IsTrigger
@@ -829,7 +846,7 @@ BoxCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 376174424}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
@@ -1326,11 +1343,11 @@ MonoBehaviour:
   - 0
   - 0
   - 0
-  decisionValue: 0.6
+  decisionValue: 0.38
   healthprecentage: 0
-  minEnemyDistance: 2
+  minEnemyDistance: 3
   maxEnemyDistance: 30
-  maxPackDistance: 2
+  maxPackDistance: 3
   minPackDistance: 50
   patrol:
     state: 0
@@ -1526,6 +1543,23 @@ PrefabInstance:
       propertyPath: _chaseDistance
       value: 5
       objectReference: {fileID: 0}
+    - target: {fileID: 5792764058003137154, guid: 711741c92bfeadc41808f0f4bbb2f208,
+        type: 3}
+      propertyPath: _sensors.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5792764058003137154, guid: 711741c92bfeadc41808f0f4bbb2f208,
+        type: 3}
+      propertyPath: _sensors.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 1c81c999eb878434ba65e24cf5729806,
+        type: 2}
+    - target: {fileID: 5792764058003137154, guid: 711741c92bfeadc41808f0f4bbb2f208,
+        type: 3}
+      propertyPath: _sensors.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: 1c81c999eb878434ba65e24cf5729806,
+        type: 2}
     - target: {fileID: 7074959704963842688, guid: 711741c92bfeadc41808f0f4bbb2f208,
         type: 3}
       propertyPath: m_IsTrigger
@@ -1825,6 +1859,23 @@ PrefabInstance:
       propertyPath: _chaseDistance
       value: 5
       objectReference: {fileID: 0}
+    - target: {fileID: 5792764058003137154, guid: 711741c92bfeadc41808f0f4bbb2f208,
+        type: 3}
+      propertyPath: _sensors.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5792764058003137154, guid: 711741c92bfeadc41808f0f4bbb2f208,
+        type: 3}
+      propertyPath: _sensors.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 1c81c999eb878434ba65e24cf5729806,
+        type: 2}
+    - target: {fileID: 5792764058003137154, guid: 711741c92bfeadc41808f0f4bbb2f208,
+        type: 3}
+      propertyPath: _sensors.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: 1c81c999eb878434ba65e24cf5729806,
+        type: 2}
     - target: {fileID: 7074959704963842688, guid: 711741c92bfeadc41808f0f4bbb2f208,
         type: 3}
       propertyPath: m_IsTrigger
@@ -1932,7 +1983,7 @@ BoxCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1906576831}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
@@ -2096,6 +2147,23 @@ PrefabInstance:
       propertyPath: _chaseDistance
       value: 5
       objectReference: {fileID: 0}
+    - target: {fileID: 5792764058003137154, guid: 711741c92bfeadc41808f0f4bbb2f208,
+        type: 3}
+      propertyPath: _sensors.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5792764058003137154, guid: 711741c92bfeadc41808f0f4bbb2f208,
+        type: 3}
+      propertyPath: _sensors.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 1c81c999eb878434ba65e24cf5729806,
+        type: 2}
+    - target: {fileID: 5792764058003137154, guid: 711741c92bfeadc41808f0f4bbb2f208,
+        type: 3}
+      propertyPath: _sensors.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: 1c81c999eb878434ba65e24cf5729806,
+        type: 2}
     - target: {fileID: 7074959704963842688, guid: 711741c92bfeadc41808f0f4bbb2f208,
         type: 3}
       propertyPath: m_IsTrigger
