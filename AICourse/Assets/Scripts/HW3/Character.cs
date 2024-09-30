@@ -10,10 +10,18 @@ public class Character : MonoBehaviour
     public Unit _pathFindUnit;
     protected StateSpeed _currentState;
     protected Vector3 _target;
+    protected Vector3 _startPoint;
 
     public virtual void Start()
     {
+        _startPoint= transform.position;
         _pathFindUnit = GetComponent<Unit>();
+        SetPartolPoint();
+    }
+
+    public virtual void Respawn()
+    {
+        transform.position = _startPoint;
         SetPartolPoint();
     }
 

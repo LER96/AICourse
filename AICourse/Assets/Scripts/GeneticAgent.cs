@@ -9,7 +9,6 @@ public class GeneticAgent : Character
     public GameObject parent;
 
     [SerializeField] float[] weights = new float[3];
-    float fitness;
     [Range(0,1)]
     [SerializeField] float decisionValue;
     float decision;
@@ -31,6 +30,7 @@ public class GeneticAgent : Character
     [SerializeField] StateSpeed escape;
 
     float _maxHp;
+    float survivalTime;
     Transform nearbyPack;
     FuzzyLocig fuzzyLocig;
 
@@ -40,6 +40,7 @@ public class GeneticAgent : Character
     {
         _maxHp = health;
         fuzzyLocig = new FuzzyLocig();
+        _startPoint= parent.transform.position;
         InitWeight();
         OnStart();
     }
@@ -64,15 +65,24 @@ public class GeneticAgent : Character
         ManageState();
     }
 
+    void SurvivalTime()
+    {
+        survivalTime = Time.timeSinceLevelLoad;
+    }
+
     public void EvaluateFitness()
     {
         totalFitness = 0;
-
-        float survivalTime = Time.timeSinceLevelLoad;
         totalFitness += survivalTime;
-        totalFitness += fitness;
+        totalFitness += weights[0] * 10;
+        totalFitness*= weights[1];
+        totalFitness += weights[2]*50;
+    }
 
-        //fitness+=
+    public override void Respawn()
+    {
+        parent.transform.position = _startPoint;
+        SetPartolPoint();
     }
 
     public void EvaluateFozzy()
@@ -172,7 +182,6 @@ public class GeneticAgent : Character
             if (pack != null)
             {
                 health += pack.hp;
-                fitness += 30;
                 if (health >= _maxHp)
                 {
                     health=_maxHp;

@@ -16,4 +16,17 @@ public class EnvironmentManager : MonoBehaviour
         Instance = this;
     }
 
+    public void Respawn()
+    {
+        for (int i = 0; i < healthPacks.Count; i++)
+        {
+            healthPacks[i].gameObject.SetActive(true);
+        }
+
+        for (int i = 0;i < enemies.Count; i++)
+        {
+            enemies[i].Respawn();
+        }
+    }
+
 }

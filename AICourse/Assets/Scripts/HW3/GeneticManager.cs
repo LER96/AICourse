@@ -7,6 +7,8 @@ public class GeneticManager : MonoBehaviour
     public List<GeneticAgent>  agents= new List<GeneticAgent>();
     public int numberOfGenerations = 10;
     [SerializeField] int currentGeneration;
+    [SerializeField] float _generationEvolveTimer;
+    float currentTimer;
 
     private void Update()
     {
@@ -16,6 +18,7 @@ public class GeneticManager : MonoBehaviour
             {
                 EvaluteFitness();
                 EvolvePopulation();
+                Respawn();
                 currentGeneration++;
             }
         }
@@ -23,23 +26,48 @@ public class GeneticManager : MonoBehaviour
 
     void EvolvePopulation()
     {
+        float[] weights = agents[0].Weights;
+        float highestFitness = agents[0].totalFitness;
+        foreach (GeneticAgent agent in agents)
+        {
+            if(agent.totalFitness > highestFitness)
+            {
+                weights = agent.Weights;
+                agent.totalFitness = highestFitness;
+            }
+        }
 
+        foreach (GeneticAgent agent in agents)
+        {
+            agent.Weights = weights;
+        }
+    }
+
+    void Respawn()
+    {
+        foreach (GeneticAgent agent in agents)
+        {
+            agent.Respawn();
+        }
+        EnvironmentManager.Instance.Respawn();
     }
 
     void EvaluteFitness()
     {
-        //agents.EvaluateFitness();
+        foreach (var agent in agents)
+        {
+            agent.EvaluateFitness();
+        }
     }
 
     bool ShouldEvolve()
     {
-        foreach (var agent in agents)
+        currentTimer += Time.deltaTime;
+        if(currentTimer> _generationEvolveTimer)
         {
-            if (agent.health > 0 && agent.gameObject.activeInHierarchy)
-            {
-                return false;
-            }
+            currentTimer = 0;
+            return true;
         }
-        return true;
+        return false;
     }
 }
