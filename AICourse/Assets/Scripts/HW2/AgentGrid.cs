@@ -2,14 +2,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Grid : MonoBehaviour
+public class AgentGrid : MonoBehaviour
 {
-    public static Grid Instance;
-
     public bool displayGizmos;
     public LayerMask unWalkable;
-    public Vector2 gridSize;
+    public int gridDivider;
+    [Header("Environment Variables")]
+    public Transform _floor;
+    public Transform _parent;
     float nodeRadius;
+    Vector2 gridSize;
 
     [Header("Patrol")]
     Transform tempPoint;
@@ -24,8 +26,8 @@ public class Grid : MonoBehaviour
 
     private void Awake()
     {
-        Instance = this;
-        nodeRadius = gridSize.x / 100;
+        gridSize = new Vector2(_floor.localScale.x, _floor.localScale.z);
+        nodeRadius = gridSize.x / gridDivider;
         _nodeDimantions = nodeRadius * 2;
         _grisdSizeX = (int)(gridSize.x / _nodeDimantions);
         _grisdSizeY = (int)(gridSize.y / _nodeDimantions);
@@ -36,7 +38,7 @@ public class Grid : MonoBehaviour
     void CreateGrid()
     {
         _grid = new Node[_grisdSizeX, _grisdSizeY];
-        Vector3 worldBottomLeft = transform.position - Vector3.right * gridSize.x / 2 - Vector3.forward * gridSize.y / 2;
+        Vector3 worldBottomLeft = _parent.position - Vector3.right * gridSize.x / 2 - Vector3.forward * gridSize.y / 2;
 
         for (int x = 0; x < _grisdSizeX; x++)
         {
@@ -47,6 +49,10 @@ public class Grid : MonoBehaviour
                     Vector3.forward * (y * _nodeDimantions + nodeRadius);
 
                 bool walkable = !(Physics.CheckSphere(worldPoint, nodeRadius, unWalkable));
+                if(walkable==false)
+                {
+                    Debug.Log(worldPoint);
+                }
                 _patrolPoints.Add(worldPoint);
                 _grid[x, y] = new Node(walkable, worldPoint,x,y);
             }
@@ -66,7 +72,7 @@ public class Grid : MonoBehaviour
                 int checkX = node.XPos + x;
                 int checkY = node.YPos + y;
 
-                if(checkX>=0 && checkX< _grisdSizeX && checkY >= 0 && checkY < gridSize.y)
+                if(checkX>=0 && checkX< _grisdSizeX && checkY >= 0 && checkY < _grisdSizeY)
                 {
                     neighbors.Add(_grid[checkX, checkY]);
                 }
@@ -78,19 +84,19 @@ public class Grid : MonoBehaviour
 
     public Node GetNodeWorldPoint(Vector3 worldPos)
     {
-        float precentX = (worldPos.x + gridSize.x / 2) / gridSize.x;
-        float precentY = (worldPos.z + gridSize.y / 2) / gridSize.y;
+        float precentX = (worldPos.x + _grisdSizeX / 2) / _grisdSizeX;
+        float precentY = (worldPos.z + _grisdSizeY / 2) / _grisdSizeY;
         precentX = Mathf.Clamp01(precentX);
         precentY = Mathf.Clamp01(precentY);
 
-        int x = Mathf.RoundToInt((gridSize.x - 1) * precentX);
-        int y = Mathf.RoundToInt((gridSize.y - 1) * precentY);
+        int x = Mathf.RoundToInt((_grisdSizeX - 1) * precentX);
+        int y = Mathf.RoundToInt((_grisdSizeY - 1) * precentY);
 
         return _grid[x, y];
     }
 
     private void OnDrawGizmos()
     {
-        Gizmos.DrawCube(transform.position, new Vector3(gridSize.x, 0.5f, gridSize.y));
+        Gizmos.DrawCube(_parent.position, new Vector3(gridSize.x, 0.5f, gridSize.y));
     }
 }

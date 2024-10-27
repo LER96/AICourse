@@ -8,6 +8,7 @@ public class Character : MonoBehaviour
     public CharacterState _characterStateEnum;
     public float health;
     public Unit _pathFindUnit;
+    public AgentGrid _agentGrid;
     protected StateSpeed _currentState;
     protected Vector3 _target;
     protected Vector3 _startPoint;
@@ -16,6 +17,7 @@ public class Character : MonoBehaviour
     {
         _startPoint= transform.position;
         _pathFindUnit = GetComponent<Unit>();
+        _agentGrid = GetComponent<AgentGrid>();
         SetPartolPoint();
     }
 
@@ -27,8 +29,8 @@ public class Character : MonoBehaviour
 
     public void SetPartolPoint()
     {
-        int rnd = Random.Range(0, Grid.Instance.CheckPoints.Count);
-        _target = Grid.Instance.CheckPoints[rnd];
+        int rnd = Random.Range(0, _agentGrid.CheckPoints.Count);
+        _target = _agentGrid.CheckPoints[rnd];
         _pathFindUnit.SetDestanation(_target);
     }
 

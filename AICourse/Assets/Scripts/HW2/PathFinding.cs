@@ -6,12 +6,19 @@ using UnityEngine;
 
 public class PathFinding : MonoBehaviour
 {
+    [SerializeField] AgentGrid _agentGrid;
+    [SerializeField] PathHandler _pathHandler;
     bool pathSuccess;
 
     Heap<Node> _openSet;
     HashSet<Node> _closeSet = new HashSet<Node>();
     Stopwatch sw;
 
+    private void Start()
+    {
+        _agentGrid = GetComponent<AgentGrid>();
+        _pathHandler = GetComponent<PathHandler>();
+    }
 
     public void StartFindPath(Vector3 startPos, Vector3 targetPos)
     {
@@ -28,12 +35,12 @@ public class PathFinding : MonoBehaviour
         pathSuccess = false;
 
         //set Start Node, End Node
-        Node _startNode = Grid.Instance.GetNodeWorldPoint(startPos);
-        Node _targetNode = Grid.Instance.GetNodeWorldPoint(targetPos);
+        Node _startNode = _agentGrid.GetNodeWorldPoint(startPos);
+        Node _targetNode = _agentGrid.GetNodeWorldPoint(targetPos);
 
         if (_startNode.walkable && _targetNode.walkable)
         {
-            _openSet = new Heap<Node>(Grid.Instance.MaxSize);
+            _openSet = new Heap<Node>(_agentGrid.MaxSize);
             _closeSet.Clear();
 
             _openSet.Add(_startNode);
@@ -51,7 +58,7 @@ public class PathFinding : MonoBehaviour
                     break;
                 }
 
-                List<Node> neighbors = Grid.Instance.GetNeighbors(currentNode);
+                List<Node> neighbors = _agentGrid.GetNeighbors(currentNode);
 
                 foreach (Node neighbor in neighbors)
                 {
@@ -84,7 +91,7 @@ public class PathFinding : MonoBehaviour
         {
             waypoints = RetracePath(_startNode, _targetNode);
         }
-        PathManager.Instance.FinishProcessPath(waypoints, pathSuccess);
+        _pathHandler.FinishProcessPath(waypoints, pathSuccess);
     }
 
     Vector3[] RetracePath(Node start, Node end)

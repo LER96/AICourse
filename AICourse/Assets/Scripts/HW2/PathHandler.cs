@@ -3,10 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PathManager : MonoBehaviour
+public class PathHandler : MonoBehaviour
 {
-    public static PathManager Instance;
-
     Queue<PathRequest> pathRequests = new Queue<PathRequest>();
     PathRequest currentRequest;
     PathFinding pathfinding;
@@ -15,16 +13,14 @@ public class PathManager : MonoBehaviour
 
     private void Awake()
     {
-        Instance = this;
         pathfinding = GetComponent<PathFinding>();
-
     }
 
-    public static void RequestPath(Vector3 start, Vector3 end, Action<Vector3[], bool> callbacks)
+    public void RequestPath(Vector3 start, Vector3 end, Action<Vector3[], bool> callbacks)
     {
         PathRequest newRequest = new PathRequest(start, end, callbacks);
-        Instance.pathRequests.Enqueue(newRequest);
-        Instance.TryProcessNext();
+        pathRequests.Enqueue(newRequest);
+        TryProcessNext();
     }
 
     void TryProcessNext()

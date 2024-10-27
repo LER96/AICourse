@@ -6,6 +6,7 @@ public class Unit : MonoBehaviour
 {
     public float speed;
     public bool reachedTarget;
+    public PathHandler pathManager;
     private Transform target;
     Vector3 targetLocation;
     Vector3[] path;
@@ -28,7 +29,7 @@ public class Unit : MonoBehaviour
 
     void SetPath()
     {
-        PathManager.RequestPath(transform.position, targetLocation, OnPathFound);
+        pathManager.RequestPath(transform.position, targetLocation, OnPathFound);
     }
 
     public void OnPathFound(Vector3[] newPath, bool pathSuccesful)
