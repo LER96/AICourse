@@ -128,7 +128,7 @@ public class GeneticAgent : Character
             if (dist < nearbyPackDist)
             {
                 nearbyPack = pack;
-                nearbyPackDist = dist;
+                nearbyPackDist = dist; 
             }
         }
         _currentNearPackDistance = nearbyPackDist;

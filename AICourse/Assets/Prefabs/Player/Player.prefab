@@ -396,6 +396,9 @@ GameObject:
   - component: {fileID: 433258574776783814}
   - component: {fileID: 1918015786603593473}
   - component: {fileID: 3513920229631213922}
+  - component: {fileID: 1031505231430514650}
+  - component: {fileID: 7871072973685674315}
+  - component: {fileID: 4524366669113759271}
   m_Layer: 8
   m_Name: Player
   m_TagString: Untagged
@@ -434,8 +437,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5bd2593e1d2060a42ac9a7fedfbc74af, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 0
+  speed: 3
   reachedTarget: 0
+  pathManager: {fileID: 7871072973685674315}
 --- !u!95 &3513920229631213922
 Animator:
   serializedVersion: 5
@@ -456,6 +460,51 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
+--- !u!114 &1031505231430514650
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 957277482095348092}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 056bf6dcd3549a64ba20f71f02ac0d2f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _agentGrid: {fileID: 4524366669113759271}
+  _pathHandler: {fileID: 7871072973685674315}
+--- !u!114 &7871072973685674315
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 957277482095348092}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ee849cb057ce37e4fb907bbc1acd1adf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &4524366669113759271
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 957277482095348092}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0d530235cdfad8c4ea82f906062ae7ea, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  displayGizmos: 0
+  unWalkable:
+    serializedVersion: 2
+    m_Bits: 126
+  gridDivider: 100
+  _floor: {fileID: 413604434237009009, guid: 06271baa1875cdd4e9dd80a80a600493, type: 3}
+  _parent: {fileID: 461515606413083282, guid: e54ead90bc170ca41b12dfef58220aca, type: 3}
 --- !u!1 &1063297394700893472
 GameObject:
   m_ObjectHideFlags: 0
@@ -1321,6 +1370,7 @@ GameObject:
   - component: {fileID: 4881609498545090592}
   - component: {fileID: 5841951677671548466}
   - component: {fileID: 8615762052120361447}
+  - component: {fileID: 1195562854}
   m_Layer: 8
   m_Name: PlayerCameraRoot
   m_TagString: Player
@@ -1354,8 +1404,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.2, y: 0.2, z: 0.2}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Size: {x: 2, y: 1.5, z: 2}
+  m_Center: {x: 0, y: -0.5, z: 0}
 --- !u!54 &8615762052120361447
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -1372,6 +1422,43 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 116
   m_CollisionDetection: 0
+--- !u!114 &1195562854
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4881609498545090599}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 21e132dea5ff6ca43a75ba81e3ad356c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _characterStateEnum: 0
+  health: 100
+  _pathFindUnit: {fileID: 1918015786603593473}
+  _agentGrid: {fileID: 4524366669113759271}
+  totalFitness: 0
+  detected: 0
+  parent: {fileID: 957277482095348092}
+  weights:
+  - 0
+  - 0
+  - 0
+  decisionValue: 0.6
+  healthprecentage: 0
+  minEnemyDistance: 3
+  maxEnemyDistance: 30
+  maxPackDistance: 50
+  minPackDistance: 3
+  patrol:
+    state: 0
+    speed: 2
+    cdTime: 0
+  escape:
+    state: 2
+    speed: 5
+    cdTime: 0
 --- !u!1 &4888017519538892763
 GameObject:
   m_ObjectHideFlags: 0

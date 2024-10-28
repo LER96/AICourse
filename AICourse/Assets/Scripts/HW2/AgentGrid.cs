@@ -97,6 +97,15 @@ public class AgentGrid : MonoBehaviour
 
     private void OnDrawGizmos()
     {
-        Gizmos.DrawCube(_parent.position, new Vector3(gridSize.x, 0.5f, gridSize.y));
+        Gizmos.DrawWireCube(_parent.position, new Vector3(gridSize.x, 0.5f, gridSize.y));
+
+        if(_grid!=null)
+        {
+            foreach (Node item in _grid)
+            {
+                Gizmos.color = (item.walkable) ? Color.white : Color.red;
+                Gizmos.DrawCube(item.worldPosition, new Vector3(_nodeDimantions,.5f,_nodeDimantions));
+            }
+        }
     }
 }
